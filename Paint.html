@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>desenhando</title>
+  </head>
+  <body>
+    <canvas width="600" height="400"></canvas>
+    <br />
+    Escolha uma cor <input type="color" />
+    <script>
+      var screen = document.querySelector("canvas");
+      var pallet = document.querySelector("input");
+      var pincel = screen.getContext("2d");
+
+      pincel.fillStyle = "lightblue";
+      pincel.fillRect(0, 0, 600, 400);
+
+      drawCircle = false; //para não desenhar até que o inverso
+
+      function draw(event) {
+        //o navegador consegue identificar cliques no canvas.
+        if (drawCircle) {
+          var x = event.pageX - screen.offsetLeft;
+          var y = event.pageY - screen.offsetTop;
+          pincel.beginPath();
+          pincel.fillStyle = pallet.value;
+
+          pincel.arc(x, y, 10, 0, 2 * 3.14);
+          pincel.fill();
+          console.log(x + "," + y);
+        }
+      }
+
+      function DesactiveDraw() {
+        drawCircle = false;
+      }
+
+      //para identificar o mouse para baixo
+      //função anonima, ela realiza diretamente o que acontece dentro, precisa vir acompanhada.
+      screen.onmousedown = function () {
+        drawCircle = true;
+      };
+
+      //para identificar o mouse para cimas
+      screen.onmouseup = function () {
+        drawCircle = false;
+      };
+
+      //quando não utiliza-se o paranteses, ele executa o que está dentro da função apenas.
+      screen.onmousemove = draw;
+    </script>
+  </body>
+</html>
